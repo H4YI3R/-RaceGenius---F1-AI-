@@ -1,561 +1,396 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조현준 | 생성형 AI 포트폴리오</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #0f172a;
-            color: #cbd5e1;
-        }
-
-        h1, h2, h3, h4, .kpi-value, .page-nav-link, .tab-btn {
-            font-family: 'Inter', sans-serif;
-        }
-
-        h1, h2, h3, h4, .kpi-value {
-            color: #ef4444;
-        }
-
-        .page-nav-link {
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            color: #f1f5f9;
-            transition: all 0.2s;
-        }
-
-        .page-nav-link:hover {
-            color: #f87171;
-            background-color: #1e293b;
-        }
-
-        .page-nav-link.active {
-            color: #ef4444;
-            background-color: #1e293b;
-        }
-
-        .page-content {
-            display: none;
-        }
-
-        .page-content.active {
-            display: block;
-        }
-
-        .glass-card {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .strategy-card {
-            background-color: #1e293b;
-            border-left: 4px solid #475569;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            color: #e5e7eb;
-        }
-
-        .strategy-card.best {
-            border-left-color: #4ade80;
-            background-color: rgba(20, 83, 45, 0.3);
-        }
-
-        .sim-select {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            background-color: #f8fafc;
-            color: #000;
-        }
-
-        .sim-button {
-            width: 100%;
-            padding: 1rem;
-            background-color: #dc2626;
-            color: #fff;
-            font-weight: 700;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-        }
-
-        .sim-button:hover {
-            background-color: #ef4444;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>조현준 | 생성형 AI 포트폴리오</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #0f172a;
+    color: #cbd5e1;
+}
+h1, h2, h3, h4, .kpi-value, .page-nav-link, .tab-btn {
+    font-family: 'Inter', sans-serif;
+}
+h1, h2, h3, h4, .kpi-value {
+    color: #ef4444;
+}
+.page-nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    transition: all 0.2s;
+}
+.page-nav-link:hover {
+    color: #f87171;
+    background-color: #1e293b;
+}
+.page-nav-link.active {
+    color: #ef4444;
+    background-color: #1e293b;
+}
+.page-content {
+    display: none;
+}
+.page-content.active {
+    display: block;
+}
+.glass-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+.strategy-card {
+    background-color: #1e293b;
+    border-left: 4px solid #475569;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    color: #e5e7eb;
+}
+.strategy-card.best {
+    border-left-color: #4ade80;
+    background-color: rgba(20, 83, 45, 0.3);
+}
+.sim-select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    background-color: #f8fafc;
+    color: #000;
+}
+.sim-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #dc2626;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+.sim-button:hover {
+    background-color: #ef4444;
+}
+</style>
 </head>
-
 <body>
-
 <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur border-b border-slate-700">
-    <nav class="max-w-7xl mx-auto px-6">
-        <div class="flex justify-between items-center h-16">
-            <span class="text-2xl font-bold text-red-500">조현준 | 포트폴리오</span>
-            <div class="space-x-4">
-                <a href="#" class="page-nav-link active" data-page="about">About</a>
-                <a href="#" class="page-nav-link" data-page="project">Project</a>
-                <a href="#" class="page-nav-link" data-page="simulator">Simulator</a>
-            </div>
-        </div>
-    </nav>
+<nav class="max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-center h-16">
+<span class="text-2xl font-bold text-red-500">조현준 | 포트폴리오</span>
+<div class="space-x-4">
+<a href="#" class="page-nav-link active" data-page="about">About</a>
+<a href="#" class="page-nav-link" data-page="project">Project</a>
+<a href="#" class="page-nav-link" data-page="simulator">Simulator</a>
+</div>
+</div>
+</nav>
 </header>
-
 <main class="max-w-7xl mx-auto px-6">
+<!-- ================= ABOUT ================= -->
+<div id="page-about" class="page-content active">
+<section class="py-24 text-center">
+<h1 class="text-6xl font-extrabold">조현준</h1>
+<p class="mt-6 text-2xl text-slate-300"> 
+F1 레이스 데이터를 활용한 생성형 AI 전략 시뮬레이션 포트폴리오 
+</p>
+</section>
+<section class="pb-16">
+<div class="glass-card border-l-8 border-red-500 text-center">
+<p class="text-xl leading-relaxed"> 
+본 프로젝트는 <strong class="text-red-400">F1 레이스 데이터를 기반</strong>으로 생성형 AI가 <strong class="text-red-400">전략 시나리오를 자동 생성</strong>하는 과정을 시연하는 포트폴리오입니다. 
+</p>
+</div>
+</section>
+<section class="pb-16">
+<div class="glass-card border-l-8 border-green-400">
+<h3 class="text-3xl font-bold mb-4">💡 개발 철학</h3>
+<p class="text-lg leading-relaxed"> 
+기술적 난관은 포기하는 것이 아니라 해결하는 것입니다.<br> 
+어떤 복잡한 문제에 부딪히더라도 근본적인 원인을 끝까지 추적하고, 결국은 안정적인 시스템을 만들어내는 것을 개발의 핵심 가치로 삼습니다. 
+</p>
+</div>
+</section>
+<section class="pb-16">
+<div class="glass-card border-l-8 border-blue-400">
+<h3 class="text-3xl font-bold mb-4">📖 상세 소개</h3>
+<p class="text-lg leading-relaxed"> 
+대학 시절부터 AI와 데이터 분석에 관심을 가지며, 여러 프로젝트를 통해 실제 데이터를 다루고 분석하는 경험을 쌓았습니다. 
+F1 레이스 데이터를 활용한 전략 시뮬레이션 프로젝트는 데이터 기반 의사결정 지원 도구 개발 능력을 보여주는 사례입니다. 
+</p>
+</div>
+</section>
+<section class="pb-16">
+<div class="glass-card border-l-8 border-purple-400">
+<h3 class="text-3xl font-bold mb-4">🎯 관심 분야</h3>
+<ul class="list-disc list-inside text-lg space-y-2">
+<li>생성형 AI 및 시뮬레이션</li>
+<li>데이터 기반 전략 최적화</li>
+<li>사용자 경험을 고려한 AI 도구 개발</li>
+<li>실시간 데이터 분석 및 시각화</li>
+</ul>
+</div>
+</section>
+</div>
+<!-- ================= PROJECT ================= -->
+<div id="page-project" class="page-content">
+<section class="py-24">
+<h2 class="text-5xl font-bold text-center mb-12"> 🏁 대표 프로젝트: <span class="text-red-500">RaceGenius</span> </h2>
+<p class="text-2xl text-slate-300 text-center font-medium mb-12"> 
+F1 레이스 전략 최적화를 위한 실시간 생성형 AI 어드바이저 
+</p>
+<p class="text-xl text-gray-400 text-center max-w-4xl mx-auto mb-20"> 
+저의 문제 해결 과정과 풀스택 역량을 보여주는 핵심 프로젝트입니다. 이 섹션에서는 프로젝트의 배경, 아키텍처, 정량적인 성과, 학습 내용을 상세히 설명합니다. 
+</p>
+<!-- 프로젝트 개요 -->
+<div class="glass-card mb-12">
+<h3 class="text-4xl font-bold text-red-500 mb-6">1. 프로젝트 개요 및 문제 정의</h3>
+<div class="grid md:grid-cols-2 gap-10">
+<div>
+<h4 class="text-2xl font-bold text-white mb-4">배경 (Background)</h4>
+<p class="text-slate-300 leading-relaxed text-lg"> 
+F1 레이스는 0.001초로 승부가 갈립니다. 현재 팀들은 '몬테카를로 시뮬레이션'을 통해 확률적으로 가장 높은 전략을 '예측'하지만, 수많은 실시간 변수(사고, 타이어 상태, 상대방의 예상치 못한 움직임) 속에서 '창의적인' 승부수를 찾는 데 한계가 있습니다. 
+</p>
+</div>
+<div>
+<h4 class="text-2xl font-bold text-white mb-4">문제 정의 (Problem)</h4>
+<p class="text-slate-300 leading-relaxed text-lg"> 
+"인간 전략가는 모든 변수를 실시간으로 고려할 수 없다." 기존 시뮬레이션은 정해진 시나리오 내에서의 '확률적 예측'에 불과합니다. 돌발 변수가 발생했을 때, 인간이 상상하지 못한 '창의적인' 대체 전략을 실시간으로 '생성'할 필요가 있습니다. 
+</p>
+</div>
+</div>
+</div>
+<!-- 아키텍처 -->
+<div class="glass-card mb-12">
+<h3 class="text-4xl font-bold text-red-500 mb-6">2. 해결 과정: <span class="text-white">아키텍처</span></h3>
+<p class="text-slate-300 leading-relaxed text-lg mb-10"> 
+Transformer(Seq2Seq) 모델을 활용해 승리로 이어지는 다양한 '다음 행동' 시퀀스를 생성하도록 했습니다. 아래는 핵심 데이터 파이프라인입니다. 
+</p>
+<div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-8 p-8 bg-slate-900/70 rounded-xl mb-16">
+<div class="flow-box">
+<span class="font-bold text-red-500 text-xl">실시간 F1 데이터</span><br>
+<span class="text-gray-400">(텔레메트리)</span>
+</div>
+<div class="flow-arrow">➡️</div>
+<div class="flow-box">
+<span class="font-bold text-red-500 text-xl">AI 모델 (Transformer)</span><br>
+<span class="text-gray-400">전략 시퀀스 생성</span>
+</div>
+<div class="flow-arrow">➡️</div>
+<div class="flow-box">
+<span class="font-bold text-red-500 text-xl">FastAPI 백엔드</span><br>
+<span class="text-gray-400">API 서빙</span>
+</div>
+<div class="flow-arrow">➡️</div>
+<div class="flow-box">
+<span class="font-bold text-red-500 text-xl">React/D3.js</span><br>
+<span class="text-gray-400">실시간 대시보드 (WebSocket)</span>
+</div>
+</div>
+</div>
+<!-- 핵심 성과 -->
+<div class="glass-card mb-12">
+<h3 class="text-4xl font-bold text-red-500 mb-6">3. 핵심 성과 <span class="text-white">(Key Outcomes)</span></h3>
+<div class="grid md:grid-cols-3 gap-8 mb-16">
+<div class="kpi-card">
+<div class="kpi-value">10<span class="text-xl">+</span></div>
+<div class="kpi-label">더 많은 창의적 전략 생성<br><span class="text-gray-500">(vs 기존 시뮬레이션)</span></div>
+</div>
+<div class="kpi-card">
+<div class="kpi-value">&lt; 5<span class="text-xl">초</span></div>
+<div class="kpi-label">돌발상황 발생 시<br>대체 전략 생성 시간</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-value">80<span class="text-xl">%</span> + 1</div>
+<div class="kpi-label">전략 일치(80%) 및<br>우승팀보다 나은 전략(1건)</div>
+</div>
+</div>
+</div>
+<!-- 배운 점 -->
+<div class="glass-card mb-12">
+<h3 class="text-4xl font-bold text-red-500 mb-6">4. 배운 점 <span class="text-white">(Key Learnings)</span></h3>
+<div class="space-y-6 text-slate-300 leading-relaxed text-lg">
+<p>
+<strong class="text-red-500 text-xl">기술적 성장:</strong> 생성형 AI(Transformer)를 F1 시계열 데이터에 적용하고 튜닝하며, Python 백엔드에서 AI 모델 결과를 React 프론트엔드에 실시간(WebSocket)으로 스트리밍하고 시각화하는 풀스택 역량을 확보했습니다.
+</p>
+<p>
+<strong class="text-red-500 text-xl">시스템 아키텍처의 중요성:</strong> 실시간 F1 데이터를 받아 AI 모델을 거쳐 프론트엔드까지 끊김 없이(Low Latency) 전달하는 데이터 파이프라인을 설계하며, 안정적이고 확장성 있는 시스템 설계의 필요성을 깨달았습니다.
+</p>
+</div>
+</div>
 
-    <!-- ================= ABOUT ================= -->
-    <div id="page-about" class="page-content active">
-        <section class="py-24 text-center">
-            <h1 class="text-6xl font-extrabold">조현준</h1>
-            <p class="mt-6 text-2xl text-slate-300">
-                F1 레이스 데이터를 활용한 생성형 AI 전략 시뮬레이션 포트폴리오
-            </p>
-        </section>
+<!-- ================== 시연 영상 + 사용자 평가 ================== -->
+<div class="glass-card mb-12">
+<h3 class="text-4xl font-bold text-red-500 mb-6">5. 시연 영상 & 사용자 평가</h3>
+<div class="grid md:grid-cols-2 gap-8">
+<div>
+<h4 class="text-2xl font-bold text-white mb-4">🎬 시연 영상</h4>
+<video controls class="w-full rounded-lg shadow-lg">
+<source src="demo_video.mp4" type="video/mp4">
+해당 브라우저는 비디오 태그를 지원하지 않습니다.
+</video>
+</div>
+<div>
+<h4 class="text-2xl font-bold text-white mb-4">📝 사용자 평가</h4>
+<ul class="list-disc list-inside text-lg space-y-2 text-slate-300">
+<li>“RaceGenius 덕분에 전략 결정 시간이 단축되었습니다.” – 사용자 A</li>
+<li>“실시간 상황 분석과 전략 추천이 직관적입니다.” – 사용자 B</li>
+<li>“AI 시뮬레이션 결과가 실제 우승 전략과 유사합니다.” – 사용자 C</li>
+<li>“UI/UX가 깔끔하고, 데이터 이해가 쉬워요.” – 사용자 D</li>
+</ul>
+</div>
+</div>
+</div>
 
-        <section class="pb-16">
-            <div class="glass-card border-l-8 border-red-500 text-center">
-                <p class="text-xl leading-relaxed">
-                    본 프로젝트는 <strong class="text-red-400">F1 레이스 데이터를 기반</strong>으로
-                    생성형 AI가 <strong class="text-red-400">전략 시나리오를 자동 생성</strong>하는 과정을
-                    시연하는 포트폴리오입니다.
-                </p>
-            </div>
-        </section>
-
-        <section class="pb-16">
-            <div class="glass-card border-l-8 border-green-400">
-                <h3 class="text-3xl font-bold mb-4">💡 개발 철학</h3>
-                <p class="text-lg leading-relaxed">
-                    기술적 난관은 포기하는 것이 아니라 해결하는 것입니다.<br>
-                    어떤 복잡한 문제에 부딪히더라도 근본적인 원인을 끝까지 추적하고,
-                    결국은 안정적인 시스템을 만들어내는 것을 개발의 핵심 가치로 삼습니다.
-                </p>
-            </div>
-        </section>
-
-        <section class="pb-16">
-            <div class="glass-card border-l-8 border-blue-400">
-                <h3 class="text-3xl font-bold mb-4">📖 상세 소개</h3>
-                <p class="text-lg leading-relaxed">
-                    대학 시절부터 AI와 데이터 분석에 관심을 가지며, 여러 프로젝트를 통해
-                    실제 데이터를 다루고 분석하는 경험을 쌓았습니다.
-                    F1 레이스 데이터를 활용한 전략 시뮬레이션 프로젝트는
-                    데이터 기반 의사결정 지원 도구 개발 능력을 보여주는 사례입니다.
-                </p>
-            </div>
-        </section>
-
-        <section class="pb-16">
-            <div class="glass-card border-l-8 border-purple-400">
-                <h3 class="text-3xl font-bold mb-4">🎯 관심 분야</h3>
-                <ul class="list-disc list-inside text-lg space-y-2">
-                    <li>생성형 AI 및 시뮬레이션</li>
-                    <li>데이터 기반 전략 최적화</li>
-                    <li>사용자 경험을 고려한 AI 도구 개발</li>
-                    <li>실시간 데이터 분석 및 시각화</li>
-                </ul>
-            </div>
-        </section>
-    </div>
-
-    <!-- ================= PROJECT ================= -->
-    <div id="page-project" class="page-content">
-        <section class="py-24">
-            <h2 class="text-5xl font-bold text-center mb-12">
-                🏁 대표 프로젝트: <span class="text-red-500">RaceGenius</span>
-            </h2>
-
-            <p class="text-2xl text-slate-300 text-center font-medium mb-12">
-                F1 레이스 전략 최적화를 위한 실시간 생성형 AI 어드바이저
-            </p>
-
-            <p class="text-xl text-gray-400 text-center max-w-4xl mx-auto mb-20">
-                저의 문제 해결 과정과 풀스택 역량을 보여주는 핵심 프로젝트입니다. 
-                이 섹션에서는 프로젝트의 배경, 아키텍처, 정량적인 성과, 학습 내용을 상세히 설명합니다.
-            </p>
-
-            <!-- 프로젝트 개요 -->
-            <div class="glass-card mb-12">
-                <h3 class="text-4xl font-bold text-red-500 mb-6">1. 프로젝트 개요 및 문제 정의</h3>
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div>
-                        <h4 class="text-2xl font-bold text-white mb-4">배경 (Background)</h4>
-                        <p class="text-slate-300 leading-relaxed text-lg">
-                            F1 레이스는 0.001초로 승부가 갈립니다. 현재 팀들은 '몬테카를로 시뮬레이션'을 통해 확률적으로 가장 높은 전략을 '예측'하지만,
-                            수많은 실시간 변수(사고, 타이어 상태, 상대방의 예상치 못한 움직임) 속에서 '창의적인' 승부수를 찾는 데 한계가 있습니다.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-white mb-4">문제 정의 (Problem)</h4>
-                        <p class="text-slate-300 leading-relaxed text-lg">
-                            "인간 전략가는 모든 변수를 실시간으로 고려할 수 없다." 기존 시뮬레이션은 정해진 시나리오 내에서의 '확률적 예측'에 불과합니다.
-                            돌발 변수가 발생했을 때, 인간이 상상하지 못한 '창의적인' 대체 전략을 실시간으로 '생성'할 필요가 있습니다.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 아키텍처 -->
-            <div class="glass-card mb-12">
-                <h3 class="text-4xl font-bold text-red-500 mb-6">2. 해결 과정: <span class="text-white">아키텍처</span></h3>
-                <p class="text-slate-300 leading-relaxed text-lg mb-10">
-                    Transformer(Seq2Seq) 모델을 활용해 승리로 이어지는 다양한 '다음 행동' 시퀀스를 생성하도록 했습니다.
-                    아래는 핵심 데이터 파이프라인입니다.
-                </p>
-                <div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-8 p-8 bg-slate-900/70 rounded-xl mb-16">
-                    <div class="flow-box">
-                        <span class="font-bold text-red-500 text-xl">실시간 F1 데이터</span><br>
-                        <span class="text-gray-400">(텔레메트리)</span>
-                    </div>
-                    <div class="flow-arrow">➡️</div>
-                    <div class="flow-box">
-                        <span class="font-bold text-red-500 text-xl">AI 모델 (Transformer)</span><br>
-                        <span class="text-gray-400">전략 시퀀스 생성</span>
-                    </div>
-                    <div class="flow-arrow">➡️</div>
-                    <div class="flow-box">
-                        <span class="font-bold text-red-500 text-xl">FastAPI 백엔드</span><br>
-                        <span class="text-gray-400">API 서빙</span>
-                    </div>
-                    <div class="flow-arrow">➡️</div>
-                    <div class="flow-box">
-                        <span class="font-bold text-red-500 text-xl">React/D3.js</span><br>
-                        <span class="text-gray-400">실시간 대시보드 (WebSocket)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 핵심 성과 -->
-            <div class="glass-card mb-12">
-                <h3 class="text-4xl font-bold text-red-500 mb-6">3. 핵심 성과 <span class="text-white">(Key Outcomes)</span></h3>
-                <div class="grid md:grid-cols-3 gap-8 mb-16">
-                    <div class="kpi-card">
-                        <div class="kpi-value">10<span class="text-xl">+</span></div>
-                        <div class="kpi-label">더 많은 창의적 전략 생성<br><span class="text-gray-500">(vs 기존 시뮬레이션)</span></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value">&lt; 5<span class="text-xl">초</span></div>
-                        <div class="kpi-label">돌발상황 발생 시<br>대체 전략 생성 시간</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value">80<span class="text-xl">%</span> + 1</div>
-                        <div class="kpi-label">전략 일치(80%) 및<br>우승팀보다 나은 전략(1건)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 배운 점 -->
-            <div class="glass-card mb-12">
-                <h3 class="text-4xl font-bold text-red-500 mb-6">4. 배운 점 <span class="text-white">(Key Learnings)</span></h3>
-                <div class="space-y-6 text-slate-300 leading-relaxed text-lg">
-                    <p>
-                        <strong class="text-red-500 text-xl">기술적 성장:</strong> 생성형 AI(Transformer)를 F1 시계열 데이터에 적용하고 튜닝하며, Python 백엔드에서 AI 모델 결과를 React 프론트엔드에 실시간(WebSocket)으로 스트리밍하고 시각화하는 풀스택 역량을 확보했습니다.
-                    </p>
-                    <p>
-                        <strong class="text-red-500 text-xl">시스템 아키텍처의 중요성:</strong> 실시간 F1 데이터를 받아 AI 모델을 거쳐 프론트엔드까지 끊김 없이(Low Latency) 전달하는 데이터 파이프라인을 설계하며, 안정적이고 확장성 있는 시스템 설계의 필요성을 깨달았습니다.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </div>
+</section>
+</div>
 
 <!-- ===== PAGE 3: 시뮬레이터 (SIMULATOR) ===== -->
 <div id="page-simulator" class="page-content">
-    <section id="simulator-section" class="section-container">
-        <h2 class="text-5xl font-bold text-center mb-6">
-            RaceGenius <span class="text-red-500">미니 시뮬레이터</span>
-        </h2>
-        <p class="text-2xl text-slate-300 text-center font-medium mb-12">
-            AI 전략 어드바이저 컨셉 시연
-        </p>
-        <p class="text-xl text-gray-400 text-center max-w-4xl mx-auto mb-20">
-            실제 AI 모델은 아니지만, 'RaceGenius'가 어떤 식으로 동작하는지 컨셉을 시연하는 시뮬레이터입니다. 
-            F1 레이스 중 발생할 수 있는 다양한 상황을 직접 선택하고 '전략 생성' 버튼을 눌러 AI의 가상 추천을 확인해 보세요.
-        </p>
-
-        <div class="glass-card max-w-6xl mx-auto">
-            <h4 class="text-2xl font-bold text-white mb-6 text-center">
-                가상 레이스 상황 설정
-            </h4>
-
-            <div class="grid md:grid-cols-2 gap-8 items-start">
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label for="sim-lap" class="font-semibold text-slate-100">현재 랩 (Current Lap)</label>
-                        <select id="sim-lap" class="sim-select">
-                            <option value="초반">Lap 10/50 (초반)</option>
-                            <option value="중반">Lap 25/50 (중반)</option>
-                            <option value="후반">Lap 40/50 (후반)</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="sim-tire" class="font-semibold text-slate-100">타이어 상태 (Tire Wear)</label>
-                        <select id="sim-tire" class="sim-select">
-                            <option value="좋음">좋음 (Good)</option>
-                            <option value="마모">마모 (Worn)</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="sim-event" class="font-semibold text-slate-100">돌발 변수 (Event)</label>
-                        <select id="sim-event" class="sim-select">
-                            <option value="없음">없음 (None)</option>
-                            <option value="세이프티 카">세이프티 카 (Safety Car)</option>
-                            <option value="약한 비">약한 비 (Light Rain)</option>
-                        </select>
-                    </div>
-
-                    <button id="sim-button" class="sim-button">
-                        🏁 AI 전략 생성
-                    </button>
-                </div>
-
-                <div id="sim-results" class="bg-slate-900/50 p-6 rounded-lg min-h-[300px]">
-                    <p class="text-slate-400 text-center mt-12">
-                        상황을 선택하고 '전략 생성' 버튼을 누르세요.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="simulator-section" class="section-container">
+<h2 class="text-5xl font-bold text-center mb-6"> RaceGenius <span class="text-red-500">미니 시뮬레이터</span> </h2>
+<p class="text-2xl text-slate-300 text-center font-medium mb-12"> AI 전략 어드바이저 컨셉 시연 </p>
+<p class="text-xl text-gray-400 text-center max-w-4xl mx-auto mb-20"> 실제 AI 모델은 아니지만, 'RaceGenius'가 어떤 식으로 동작하는지 컨셉을 시연하는 시뮬레이터입니다. F1 레이스 중 발생할 수 있는 다양한 상황을 직접 선택하고 '전략 생성' 버튼을 눌러 AI의 가상 추천을 확인해 보세요. </p>
+<div class="glass-card max-w-6xl mx-auto">
+<h4 class="text-2xl font-bold text-white mb-6 text-center"> 가상 레이스 상황 설정 </h4>
+<div class="grid md:grid-cols-2 gap-8 items-start">
+<div class="space-y-6">
+<div class="space-y-2">
+<label for="sim-lap" class="font-semibold text-slate-100">현재 랩 (Current Lap)</label>
+<select id="sim-lap" class="sim-select">
+<option value="초반">Lap 10/50 (초반)</option>
+<option value="중반">Lap 25/50 (중반)</option>
+<option value="후반">Lap 40/50 (후반)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label for="sim-tire" class="font-semibold text-slate-100">타이어 상태 (Tire Wear)</label>
+<select id="sim-tire" class="sim-select">
+<option value="좋음">좋음 (Good)</option>
+<option value="마모">마모 (Worn)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label for="sim-event" class="font-semibold text-slate-100">돌발 변수 (Event)</label>
+<select id="sim-event" class="sim-select">
+<option value="없음">없음 (None)</option>
+<option value="세이프티 카">세이프티 카 (Safety Car)</option>
+<option value="약한 비">약한 비 (Light Rain)</option>
+</select>
+</div>
+<button id="sim-button" class="sim-button"> 🏁 AI 전략 생성 </button>
+</div>
+<div id="sim-results" class="bg-slate-900/50 p-6 rounded-lg min-h-[300px]">
+<p class="text-slate-400 text-center mt-12"> 상황을 선택하고 '전략 생성' 버튼을 누르세요. </p>
+</div>
+</div>
+</div>
+</section>
 </div>
 
 <footer class="py-16 bg-slate-900/50 border-t border-slate-700/50 mt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-        <p>&copy; 2025 조현준 (Hyeon-jun Jo). All rights reserved.</p>
-        <p class="mt-3 text-sm">
-            이 페이지는 포트폴리오를 시연하기 위해 제작된 대화형 웹 애플리케이션입니다.
-        </p>
-    </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+<p>&copy; 2025 조현준 (Hyeon-jun Jo). All rights reserved.</p>
+<p class="mt-3 text-sm"> 이 페이지는 포트폴리오를 시연하기 위해 제작된 대화형 웹 애플리케이션입니다. </p>
+</div>
 </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    function setupPageNavigation() {
-        const navLinks = document.querySelectorAll('.page-nav-link');
-        const pages = document.querySelectorAll('.page-content');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pageId = link.getAttribute('data-page');
-                pages.forEach(page => page.classList.remove('active'));
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                document.getElementById('page-' + pageId).classList.add('active');
-                link.classList.add('active');
-                window.scrollTo(0, 0);
-            });
-        });
-    }
-
-    function setupTabs() {
-        const tabContainer = document.querySelector('#skills');
-        if (!tabContainer) return;
-        const tabButtons = tabContainer.querySelectorAll('.tab-btn');
-        const tabContents = tabContainer.querySelectorAll('.tab-content');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetTab = button.getAttribute('data-tab');
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === targetTab) content.classList.add('active');
-                });
-            });
-        });
-    }
-
-    function setupSimulator() {
-        const button = document.getElementById('sim-button');
-        const resultsDiv = document.getElementById('sim-results');
-        const lapSelect = document.getElementById('sim-lap');
-        const tireSelect = document.getElementById('sim-tire');
-        const eventSelect = document.getElementById('sim-event');
-        if (!button) return;
-
-        const baseStrategies = [
-            { name: 'Pit Now (Soft Tires)', baseProb: 18, type: 'pit' },
-            { name: 'Pit Now (Medium Tires)', baseProb: 20, type: 'pit' },
-            { name: 'Pit Now (Hard Tires)', baseProb: 15, type: 'pit' },
-            { name: 'Stay Out (3 Laps)', baseProb: 12, type: 'stay' },
-            { name: 'Stay Out (5 Laps)', baseProb: 10, type: 'stay' },
-            { name: 'Pit Now (Intermediates)', baseProb: 5, type: 'rain' }
-        ];
-
-        button.addEventListener('click', () => {
-            button.disabled = true;
-            resultsDiv.innerHTML = `<div class="text-center text-red-500 animate-pulse mt-12">
-                                        AI가 실시간 데이터를 분석 중입니다...
-                                    </div>`;
-
-            const lapVal = lapSelect.value;
-            const tireVal = tireSelect.value;
-            const eventVal = eventSelect.value;
-
-            let calculatedStrategies = JSON.parse(JSON.stringify(baseStrategies));
-            calculatedStrategies.forEach(s => {
-                let prob = s.baseProb;
-
-                if (eventVal === '세이프티 카') {
-                    if (s.type === 'pit') prob += 30;
-                    if (s.type === 'stay') prob -= 10;
-                } else if (eventVal === '약한 비') {
-                    if (s.type === 'rain') prob += 50;
-                    else prob -= 20;
-                } else {
-                    if (s.type === 'rain') prob = -99;
-                }
-
-                if (tireVal === '마모') {
-                    if (s.type === 'pit') prob += 15;
-                    if (s.type === 'stay') prob -= 20;
-                }
-
-                if (lapVal === '후반') {
-                    if (s.name.includes('Soft')) prob += 10;
-                    if (s.name.includes('Hard')) prob -= 10;
-                }
-                if (lapVal === '초반') {
-                    if (s.name.includes('Hard')) prob += 10;
-                    if (s.name.includes('Soft')) prob -= 10;
-                }
-
-                s.winProb = Math.max(0, prob + Math.floor(Math.random() * 8));
-            });
-
-            calculatedStrategies.sort((a, b) => b.winProb - a.winProb);
-            const top3 = calculatedStrategies.slice(0, 3);
-
-            setTimeout(() => {
-                let html = `<h4 class="text-xl font-bold text-white mb-4">생성된 AI 전략 Top 3</h4><div class="space-y-3">`;
-                top3.forEach((s, index) => {
-                    const cardClass = index === 0 ? 'best' : 'secondary';
-                    html += `<div class="strategy-card ${cardClass}">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="text-lg font-semibold text-white">${index + 1}. ${s.name}</span>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="text-2xl font-bold ${index === 0 ? 'text-green-400' : 'text-red-500'}">${s.winProb}%</span>
-                                        <div class="text-xs text-slate-400">예상 승률</div>
-                                    </div>
-                                </div>
-                            </div>`;
-                });
-                html += '</div>';
-                resultsDiv.innerHTML = html;
-                button.disabled = false;
-            }, 1500);
-        });
-    }
-
-    function createBacktestChart() {
-        const ctx = document.getElementById('backtestChart');
-        if (!ctx) return;
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['AI 전략 = 실제 우승 (4건)', 'AI 전략 > 실제 우승 (1건)'],
-                datasets: [{
-                    label: '백테스트 결과 (총 5개 레이스)',
-                    data: [4, 1],
-                    backgroundColor: ['#ef4444', '#10b981'],
-                    borderColor: ['#ef4444', '#10b981'],
-                    borderWidth: 2,
-                    hoverOffset: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#cbd5e1',
-                            font: { size: 14, family: 'Noto Sans KR' },
-                            padding: 25
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) { return `${context.label}: ${context.parsed}건`; }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function createPerformanceChart() {
-        const ctx = document.getElementById('performanceChart');
-        if (!ctx) return;
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['기존 시뮬레이션', 'RaceGenius'],
-                datasets: [{
-                    label: '생성된 전략 시나리오 (배수)',
-                    data: [1, 10],
-                    backgroundColor: ['#334155', '#ef4444'],
-                    borderColor: ['#475569', '#ef4444'],
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: '전략 시나리오 (배수)',
-                            color: '#cbd5e1',
-                            font: { family: 'Noto Sans KR' }
-                        },
-                        ticks: { color: '#cbd5e1' },
-                        grid: { color: 'rgba(203, 213, 225, 0.1)' }
-                    },
-                    y: {
-                        ticks: { color: '#cbd5e1', font: { size: 14 } },
-                        grid: { color: 'rgba(203, 213, 225, 0.1)' }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) { return `${context.raw}배 더 많은 시나리오 생성`; }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    setupPageNavigation();
-    setupTabs();
-    setupSimulator();
-    createBacktestChart();
-    createPerformanceChart();
+function setupPageNavigation() {
+const navLinks = document.querySelectorAll('.page-nav-link');
+const pages = document.querySelectorAll('.page-content');
+navLinks.forEach(link => {
+link.addEventListener('click', (e) => {
+e.preventDefault();
+const pageId = link.getAttribute('data-page');
+pages.forEach(page => page.classList.remove('active'));
+navLinks.forEach(nav => nav.classList.remove('active'));
+document.getElementById('page-' + pageId).classList.add('active');
+link.classList.add('active');
+window.scrollTo(0, 0);
+});
+});
+}
+function setupSimulator() {
+const button = document.getElementById('sim-button');
+const resultsDiv = document.getElementById('sim-results');
+const lapSelect = document.getElementById('sim-lap');
+const tireSelect = document.getElementById('sim-tire');
+const eventSelect = document.getElementById('sim-event');
+if (!button) return;
+const baseStrategies = [
+{ name: 'Pit Now (Soft Tires)', baseProb: 18, type: 'pit' },
+{ name: 'Pit Now (Medium Tires)', baseProb: 20, type: 'pit' },
+{ name: 'Pit Now (Hard Tires)', baseProb: 15, type: 'pit' },
+{ name: 'Stay Out (3 Laps)', baseProb: 12, type: 'stay' },
+{ name: 'Stay Out (5 Laps)', baseProb: 10, type: 'stay' },
+{ name: 'Pit Now (Intermediates)', baseProb: 5, type: 'rain' }
+];
+button.addEventListener('click', () => {
+button.disabled = true;
+resultsDiv.innerHTML = `<div class="text-center text-red-500 animate-pulse mt-12"> AI가 실시간 데이터를 분석 중입니다... </div>`;
+const lapVal = lapSelect.value;
+const tireVal = tireSelect.value;
+const eventVal = eventSelect.value;
+let calculatedStrategies = JSON.parse(JSON.stringify(baseStrategies));
+calculatedStrategies.forEach(s => {
+let prob = s.baseProb;
+if (eventVal === '세이프티 카') {
+if (s.type === 'pit') prob += 30;
+if (s.type === 'stay') prob -= 10;
+} else if (eventVal === '약한 비') {
+if (s.type === 'rain') prob += 50;
+else prob -= 20;
+} else {
+if (s.type === 'rain') prob = -99;
+}
+if (tireVal === '마모') {
+if (s.type === 'pit') prob += 15;
+if (s.type === 'stay') prob -= 20;
+}
+if (lapVal === '후반') {
+if (s.name.includes('Soft')) prob += 10;
+if (s.name.includes('Hard')) prob -= 10;
+}
+if (lapVal === '초반') {
+if (s.name.includes('Hard')) prob += 10;
+if (s.name.includes('Soft')) prob -= 10;
+}
+s.winProb = Math.max(0, prob + Math.floor(Math.random() * 8));
+});
+calculatedStrategies.sort((a, b) => b.winProb - a.winProb);
+const top3 = calculatedStrategies.slice(0, 3);
+setTimeout(() => {
+let html = `<h4 class="text-xl font-bold text-white mb-4">생성된 AI 전략 Top 3</h4><div class="space-y-3">`;
+top3.forEach((s, index) => {
+const cardClass = index === 0 ? 'best' : 'secondary';
+html += `<div class="strategy-card ${cardClass}">
+<div class="flex justify-between items-center">
+<div><span class="text-lg font-semibold text-white">${index + 1}. ${s.name}</span></div>
+<div class="text-right">
+<span class="text-2xl font-bold ${index === 0 ? 'text-green-400' : 'text-red-500'}">${s.winProb}%</span>
+<div class="text-xs text-slate-400">예상 승률</div>
+</div>
+</div>
+</div>`;
+});
+html += '</div>';
+resultsDiv.innerHTML = html;
+button.disabled = false;
+}, 1500);
+});
+}
+setupPageNavigation();
+setupSimulator();
 });
 </script>
-
-
 </body>
 </html>
-

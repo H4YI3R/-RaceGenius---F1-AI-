@@ -269,70 +269,293 @@
         </section>
     </div>
 
-    <!-- ================= SIMULATOR ================= -->
-    <div id="page-simulator" class="page-content">
-        <section class="py-24">
-            <h2 class="text-5xl font-bold text-center mb-16">AI 전략 시뮬레이터 (Concept Demo)</h2>
-            <div class="glass-card max-w-4xl mx-auto">
-                <select id="sim-lap" class="sim-select mb-4">
-                    <option>초반</option>
-                    <option>중반</option>
-                    <option>후반</option>
-                </select>
+<!-- ===== PAGE 3: 시뮬레이터 (SIMULATOR) ===== -->
+<div id="page-simulator" class="page-content">
+    <section id="simulator-section" class="section-container">
+        <h2 class="text-5xl font-bold text-center mb-6">
+            RaceGenius <span class="text-red-500">미니 시뮬레이터</span>
+        </h2>
+        <p class="text-2xl text-slate-300 text-center font-medium mb-12">
+            AI 전략 어드바이저 컨셉 시연
+        </p>
+        <p class="text-xl text-gray-400 text-center max-w-4xl mx-auto mb-20">
+            실제 AI 모델은 아니지만, 'RaceGenius'가 어떤 식으로 동작하는지 컨셉을 시연하는 시뮬레이터입니다. 
+            F1 레이스 중 발생할 수 있는 다양한 상황을 직접 선택하고 '전략 생성' 버튼을 눌러 AI의 가상 추천을 확인해 보세요.
+        </p>
 
-                <select id="sim-event" class="sim-select mb-6">
-                    <option>없음</option>
-                    <option>세이프티 카</option>
-                    <option>약한 비</option>
-                </select>
+        <div class="glass-card max-w-6xl mx-auto">
+            <h4 class="text-2xl font-bold text-white mb-6 text-center">
+                가상 레이스 상황 설정
+            </h4>
 
-                <button id="sim-button" class="sim-button">🏁 AI 전략 생성</button>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label for="sim-lap" class="font-semibold text-slate-100">현재 랩 (Current Lap)</label>
+                        <select id="sim-lap" class="sim-select">
+                            <option value="초반">Lap 10/50 (초반)</option>
+                            <option value="중반">Lap 25/50 (중반)</option>
+                            <option value="후반">Lap 40/50 (후반)</option>
+                        </select>
+                    </div>
 
-                <div id="sim-results" class="mt-8 text-center text-slate-400">
-                    상황을 선택하고 버튼을 눌러주세요.
+                    <div class="space-y-2">
+                        <label for="sim-tire" class="font-semibold text-slate-100">타이어 상태 (Tire Wear)</label>
+                        <select id="sim-tire" class="sim-select">
+                            <option value="좋음">좋음 (Good)</option>
+                            <option value="마모">마모 (Worn)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="sim-event" class="font-semibold text-slate-100">돌발 변수 (Event)</label>
+                        <select id="sim-event" class="sim-select">
+                            <option value="없음">없음 (None)</option>
+                            <option value="세이프티 카">세이프티 카 (Safety Car)</option>
+                            <option value="약한 비">약한 비 (Light Rain)</option>
+                        </select>
+                    </div>
+
+                    <button id="sim-button" class="sim-button">
+                        🏁 AI 전략 생성
+                    </button>
+                </div>
+
+                <div id="sim-results" class="bg-slate-900/50 p-6 rounded-lg min-h-[300px]">
+                    <p class="text-slate-400 text-center mt-12">
+                        상황을 선택하고 '전략 생성' 버튼을 누르세요.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+</div>
+
+<footer class="py-16 bg-slate-900/50 border-t border-slate-700/50 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+        <p>&copy; 2025 조현준 (Hyeon-jun Jo). All rights reserved.</p>
+        <p class="mt-3 text-sm">
+            이 페이지는 포트폴리오를 시연하기 위해 제작된 대화형 웹 애플리케이션입니다.
+        </p>
     </div>
-
-</main>
-
-<footer class="py-10 text-center text-slate-500">
-    © 2025 조현준 — 생성형 AI 기말 포트폴리오
 </footer>
 
 <script>
-    // 페이지 전환
-    const navLinks = document.querySelectorAll('.page-nav-link');
-    const pages = document.querySelectorAll('.page-content');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            navLinks.forEach(l => l.classList.remove('active'));
-            pages.forEach(p => p.classList.remove('active'));
-
-            link.classList.add('active');
-            document.getElementById('page-' + link.dataset.page).classList.add('active');
-            window.scrollTo(0, 0);
+document.addEventListener('DOMContentLoaded', () => {
+    function setupPageNavigation() {
+        const navLinks = document.querySelectorAll('.page-nav-link');
+        const pages = document.querySelectorAll('.page-content');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                pages.forEach(page => page.classList.remove('active'));
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                document.getElementById('page-' + pageId).classList.add('active');
+                link.classList.add('active');
+                window.scrollTo(0, 0);
+            });
         });
-    });
+    }
 
-    // 시뮬레이터 동작
-    const simButton = document.getElementById('sim-button');
-    const simResults = document.getElementById('sim-results');
+    function setupTabs() {
+        const tabContainer = document.querySelector('#skills');
+        if (!tabContainer) return;
+        const tabButtons = tabContainer.querySelectorAll('.tab-btn');
+        const tabContents = tabContainer.querySelectorAll('.tab-content');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === targetTab) content.classList.add('active');
+                });
+            });
+        });
+    }
 
-    simButton.addEventListener('click', () => {
-        const lap = document.getElementById('sim-lap').value;
-        const event = document.getElementById('sim-event').value;
+    function setupSimulator() {
+        const button = document.getElementById('sim-button');
+        const resultsDiv = document.getElementById('sim-results');
+        const lapSelect = document.getElementById('sim-lap');
+        const tireSelect = document.getElementById('sim-tire');
+        const eventSelect = document.getElementById('sim-event');
+        if (!button) return;
 
-        simResults.innerHTML = `
-            🏎 선택된 구간: <strong>${lap}</strong><br>
-            🌦 이벤트: <strong>${event}</strong><br>
-            ✅ AI 전략: 타이어 교체 및 연료 관리 최적화
-        `;
-    });
+        const baseStrategies = [
+            { name: 'Pit Now (Soft Tires)', baseProb: 18, type: 'pit' },
+            { name: 'Pit Now (Medium Tires)', baseProb: 20, type: 'pit' },
+            { name: 'Pit Now (Hard Tires)', baseProb: 15, type: 'pit' },
+            { name: 'Stay Out (3 Laps)', baseProb: 12, type: 'stay' },
+            { name: 'Stay Out (5 Laps)', baseProb: 10, type: 'stay' },
+            { name: 'Pit Now (Intermediates)', baseProb: 5, type: 'rain' }
+        ];
+
+        button.addEventListener('click', () => {
+            button.disabled = true;
+            resultsDiv.innerHTML = `<div class="text-center text-red-500 animate-pulse mt-12">
+                                        AI가 실시간 데이터를 분석 중입니다...
+                                    </div>`;
+
+            const lapVal = lapSelect.value;
+            const tireVal = tireSelect.value;
+            const eventVal = eventSelect.value;
+
+            let calculatedStrategies = JSON.parse(JSON.stringify(baseStrategies));
+            calculatedStrategies.forEach(s => {
+                let prob = s.baseProb;
+
+                if (eventVal === '세이프티 카') {
+                    if (s.type === 'pit') prob += 30;
+                    if (s.type === 'stay') prob -= 10;
+                } else if (eventVal === '약한 비') {
+                    if (s.type === 'rain') prob += 50;
+                    else prob -= 20;
+                } else {
+                    if (s.type === 'rain') prob = -99;
+                }
+
+                if (tireVal === '마모') {
+                    if (s.type === 'pit') prob += 15;
+                    if (s.type === 'stay') prob -= 20;
+                }
+
+                if (lapVal === '후반') {
+                    if (s.name.includes('Soft')) prob += 10;
+                    if (s.name.includes('Hard')) prob -= 10;
+                }
+                if (lapVal === '초반') {
+                    if (s.name.includes('Hard')) prob += 10;
+                    if (s.name.includes('Soft')) prob -= 10;
+                }
+
+                s.winProb = Math.max(0, prob + Math.floor(Math.random() * 8));
+            });
+
+            calculatedStrategies.sort((a, b) => b.winProb - a.winProb);
+            const top3 = calculatedStrategies.slice(0, 3);
+
+            setTimeout(() => {
+                let html = `<h4 class="text-xl font-bold text-white mb-4">생성된 AI 전략 Top 3</h4><div class="space-y-3">`;
+                top3.forEach((s, index) => {
+                    const cardClass = index === 0 ? 'best' : 'secondary';
+                    html += `<div class="strategy-card ${cardClass}">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-lg font-semibold text-white">${index + 1}. ${s.name}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl font-bold ${index === 0 ? 'text-green-400' : 'text-red-500'}">${s.winProb}%</span>
+                                        <div class="text-xs text-slate-400">예상 승률</div>
+                                    </div>
+                                </div>
+                            </div>`;
+                });
+                html += '</div>';
+                resultsDiv.innerHTML = html;
+                button.disabled = false;
+            }, 1500);
+        });
+    }
+
+    function createBacktestChart() {
+        const ctx = document.getElementById('backtestChart');
+        if (!ctx) return;
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['AI 전략 = 실제 우승 (4건)', 'AI 전략 > 실제 우승 (1건)'],
+                datasets: [{
+                    label: '백테스트 결과 (총 5개 레이스)',
+                    data: [4, 1],
+                    backgroundColor: ['#ef4444', '#10b981'],
+                    borderColor: ['#ef4444', '#10b981'],
+                    borderWidth: 2,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#cbd5e1',
+                            font: { size: 14, family: 'Noto Sans KR' },
+                            padding: 25
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) { return `${context.label}: ${context.parsed}건`; }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function createPerformanceChart() {
+        const ctx = document.getElementById('performanceChart');
+        if (!ctx) return;
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['기존 시뮬레이션', 'RaceGenius'],
+                datasets: [{
+                    label: '생성된 전략 시나리오 (배수)',
+                    data: [1, 10],
+                    backgroundColor: ['#334155', '#ef4444'],
+                    borderColor: ['#475569', '#ef4444'],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '전략 시나리오 (배수)',
+                            color: '#cbd5e1',
+                            font: { family: 'Noto Sans KR' }
+                        },
+                        ticks: { color: '#cbd5e1' },
+                        grid: { color: 'rgba(203, 213, 225, 0.1)' }
+                    },
+                    y: {
+                        ticks: { color: '#cbd5e1', font: { size: 14 } },
+                        grid: { color: 'rgba(203, 213, 225, 0.1)' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) { return `${context.raw}배 더 많은 시나리오 생성`; }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    setupPageNavigation();
+    setupTabs();
+    setupSimulator();
+    createBacktestChart();
+    createPerformanceChart();
+});
 </script>
+
 
 </body>
 </html>
+
